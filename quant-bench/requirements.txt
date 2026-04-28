@@ -1,0 +1,52 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# CNN / RNN / Attention Quantization Benchmark — Python Dependencies
+#
+# NOTE: `torch` is pre-installed in the NGC base image (pytorch:24.12-py3).
+#       Do NOT add torch here — pip would attempt to overwrite the NGC build.
+#
+# torchvision and torchaudio are included here for completeness; they are
+# also typically pre-installed in the NGC image.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── PyTorch ecosystem ────────────────────────────────────────────────────────
+torchvision
+torchaudio
+
+# ── Quantization ─────────────────────────────────────────────────────────────
+# torchao 0.7.0: last version compatible with PyTorch 2.5.x (torch.int1 not required).
+# Later versions (0.8+) require torch >= 2.6.0; latest versions require torch >= 2.11.0.
+# Upgrade torchao and the base image together if a newer PyTorch base is used.
+# INT4 weight-only requires bfloat16 model weights (.to(torch.bfloat16) before quantize_()).
+torchao==0.7.0
+
+# ── ONNX ─────────────────────────────────────────────────────────────────────
+onnx>=1.16.0
+onnxruntime-gpu>=1.19.2          # CUDA 12.x execution provider
+
+# ── Scientific computing ──────────────────────────────────────────────────────
+numpy>=1.24.0
+scipy>=1.11.0
+pandas>=2.0.0
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+tqdm>=4.66.0
+matplotlib>=3.8.0
+rich>=13.7.0
+nvidia-ml-py>=12.560.30          # GPU power / memory monitoring (pynvml is deprecated; nvidia-ml-py exposes the same pynvml module)
+psutil>=5.9.0
+tabulate>=0.9.0
+
+# ── Deep learning helpers ─────────────────────────────────────────────────────
+einops>=0.7.0
+timm>=1.0.0                      # small CNN / ViT models for benchmark targets
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+jupyter>=1.0.0
+ipykernel>=6.29.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# OPTIONAL (not installed here — see README §11):
+#   tensorrt            — strict CUDA/TRT version coupling
+#   torch-tensorrt      — must match PyTorch + TRT versions exactly
+#   nvidia-modelopt     — PTQ calibration pipeline for TRT INT8
+# ─────────────────────────────────────────────────────────────────────────────
