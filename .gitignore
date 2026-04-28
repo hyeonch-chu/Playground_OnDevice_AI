@@ -1,4 +1,5 @@
 quant-bench/Quantization/data/*
+quant-bench/Quantization/artifacts_mnist_mlp/*
 
 
 # Byte-compiled / optimized / DLL files

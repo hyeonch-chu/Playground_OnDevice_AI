@@ -1,12 +1,17 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # CNN / RNN / Attention Quantization Benchmark — Python Dependencies
 #
-# NOTE: `torch` is pre-installed in the NGC base image (pytorch:24.12-py3).
-#       Do NOT add torch here — pip would attempt to overwrite the NGC build.
+# NOTE: `torch` is pre-installed in the base image (pytorch/pytorch:2.5.1-cuda12.1-cudnn9-devel).
+#       Do NOT add torch here — pip would attempt to overwrite the base image build.
 #
 # torchvision and torchaudio are included here for completeness; they are
-# also typically pre-installed in the NGC image.
+# also pre-installed in the base image.
+#
+# tensorrt-cu12 is fetched from the NVIDIA PyPI index (--extra-index-url below).
 # ─────────────────────────────────────────────────────────────────────────────
+
+# NVIDIA PyPI index — required for tensorrt-cu12
+--extra-index-url https://pypi.nvidia.com
 
 # ── PyTorch ecosystem ────────────────────────────────────────────────────────
 torchvision
@@ -22,6 +27,19 @@ torchao==0.7.0
 # ── ONNX ─────────────────────────────────────────────────────────────────────
 onnx>=1.16.0
 onnxruntime-gpu>=1.19.2          # CUDA 12.x execution provider
+onnxsim                          # onnx-simplifier: model graph simplification before engine export
+
+# ── TensorRT ─────────────────────────────────────────────────────────────────
+# tensorrt-cu12: CUDA 12.x용 TensorRT Python 바인딩 + runtime 라이브러리 메타패키지.
+# NVIDIA PyPI index(위 --extra-index-url)에서 설치됨.
+#
+# trtexec CLI가 항상 포함된다고 가정하지 말 것.
+#   - 설치 후 반드시 `which trtexec`로 확인한다.
+#   - trtexec가 없으면 TensorRT Python API(tensorrt 모듈)로 engine build/run 진행.
+#
+# torch-tensorrt는 지금 추가하지 않음 (PyTorch + TRT 버전 coupling 민감).
+# nvidia-modelopt도 지금 추가하지 않음 (별도 PTQ calibration 단계에서 설치).
+tensorrt-cu12
 
 # ── Scientific computing ──────────────────────────────────────────────────────
 numpy>=1.24.0
@@ -43,10 +61,3 @@ timm>=1.0.0                      # small CNN / ViT models for benchmark targets
 # ── Jupyter ───────────────────────────────────────────────────────────────────
 jupyter>=1.0.0
 ipykernel>=6.29.0
-
-# ─────────────────────────────────────────────────────────────────────────────
-# OPTIONAL (not installed here — see README §11):
-#   tensorrt            — strict CUDA/TRT version coupling
-#   torch-tensorrt      — must match PyTorch + TRT versions exactly
-#   nvidia-modelopt     — PTQ calibration pipeline for TRT INT8
-# ─────────────────────────────────────────────────────────────────────────────
