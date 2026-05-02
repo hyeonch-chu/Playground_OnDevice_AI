@@ -1,6 +1,8 @@
 quant-bench/Quantization/data/*
+quant-bench/Quantization/checkpoints/*
+quant-bench/Quantization/results/*
 quant-bench/Quantization/artifacts_mnist_mlp/*
-
+quant-bench/Quantization/artifacts_imagenet/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
